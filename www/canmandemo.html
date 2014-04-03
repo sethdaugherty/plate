@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Tutorial: Canman!</title>
+</head>
+<body>
+<h1 id="greeting">Hello Canman</h1>
+<!-- Either include the full CamanJS code including plugins -->
+<script type="text/javascript" src="caman.full.min.js"></script>
+<canvas id="canvas-id"></canvas>
+<img src="images/Guy.jpg" />
+<script>
+    Caman("#canvas-id", "images/Guy.jpg", function () {
+        // manipulate image here
+        this.brightness(50).render();
+    });
+</script>
+</body>
+</html>

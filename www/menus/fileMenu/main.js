@@ -14,7 +14,7 @@ define(
 
         return {
 
-        create: function(id) {
+        create: function(id, undoHandler) {
             console.log("created file menu");
 
             menu = new Menu({
@@ -29,17 +29,37 @@ define(
             menu.addChild(new MenuItem({
                 id: "open",
                 label: "Open",
-                onClick: function() {console.log("canceled");}
+                onClick: function()
+                {
+                    Caman("#mainCanvas", "images/Guy.jpg");
+                }
             }));
 
             menu.addChild(new MenuItem({
                 id: "openNext",
-                label: "Open Next"
+                label: "Open Next",
+                onClick: function()
+                {
+                    undoHandler.save();
+                    Caman("#mainCanvas", function()
+                    {
+                        this.brightness(30).render();
+                    })
+
+                }
             }));
 
             menu.addChild(new MenuItem({
                 id: "save",
-                label: "Save"
+                label: "Save",
+                onClick: function()
+                {
+                    undoHandler.save();
+                    Caman("#mainCanvas", function()
+                    {
+                        this.brightness(-30).render();
+                    })
+                }
             }));
 
             menu.addChild(new MenuItem({
