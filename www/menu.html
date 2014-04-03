@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Hello Dijit!</title>
+    <!-- load Dojo -->
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.9.2/dijit/themes/claro/claro.css">
+    <!-- load Dojo -->
+    <script>
+        // Instead of using data-dojo-config, we're creating a dojoConfig
+        // object *before* we load dojo.js; they're functionally identical,
+        // it's just easier to read this approach with a larger configuration.
+        var dojoConfig = {
+            async: true,
+            baseUrl: '.',
+            // This code registers the correct location of the "demo"
+            // package so we can load Dojo from the CDN whilst still
+            // being able to load local modules
+            packages: [
+                'dojo',
+                'dijit',
+                'dojox',
+                {
+                    name: "fileMenu",
+                    location: location.pathname.replace(/\/[^/]*$/, '') + '/menus/fileMenu'
+                }
+                    ]
+        };
+    </script>
+    <script src="dojo/dojo.js" data-dojo-config="async: true"></script>
+</head>
+<!-- set the claro class on our body element -->
+<body class="claro">
+<div id="mainMenu"></div>
+
+<script>
+    // Require dependencies
+    require([
+        "dijit/Menu",
+        "dijit/MenuItem",
+        "dijit/MenuBar",
+        "dijit/MenuBarItem",
+        "dijit/PopupMenuBarItem",
+        "fileMenu",
+        "dojo/domReady!"
+    ], function
+       (
+           Menu,
+           MenuItem,
+           MenuBar,
+           MenuBarItem,
+           PopupMenuBarItem,
+           FileMenu
+        )
+        {
+            console.log(FileMenu);
+
+        // create the Menu container
+        var mainMenu = new MenuBar({}, "mainMenu");
+
+        // create Menu container and child MenuItems
+        // for our sub-menu (no srcNodeRef; we will
+        //add it under a PopupMenuItem)
+
+        var fileMenu = FileMenu.create("fileMenu");
+
+        // create and add main menu items
+        mainMenu.addChild(new PopupMenuBarItem({
+            id: "file",
+            label: "File",
+            popup: fileMenu
+        }));
+
+        mainMenu.addChild(new MenuBarItem({
+            id: "edit",
+            label: "Edit"
+        }));
+
+        // make task menu item open the sub-menu we defined above
+        mainMenu.addChild(new MenuBarItem({
+            id: "image",
+            label: "Image"
+        //    popup: taskMenu
+        }));
+
+        mainMenu.addChild(new MenuBarItem({
+            id: "process",
+            label: "Process"
+        //    popup: taskMenu
+        }));
+
+        mainMenu.addChild(new MenuBarItem({
+            id: "analyze",
+            label: "Analyze"
+          //  popup: taskMenu
+        }));
+
+        mainMenu.addChild(new MenuBarItem({
+            id: "plugins",
+            label: "Plugins"
+        //    popup: taskMenu
+        }));
+
+        mainMenu.addChild(new MenuBarItem({
+            id: "window",
+            label: "Window"
+            //popup: taskMenu
+        }));
+
+        mainMenu.addChild(new MenuBarItem({
+            id: "help",
+            label: "Help"
+            //popup: taskMenu
+        }));
+
+        mainMenu.startup();
+        fileMenu.startup();
+
+    });
+</script>
+</body>
+</html>

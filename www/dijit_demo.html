@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Hello Dijit!</title>
+    <!-- load Dojo -->
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.9.2/dijit/themes/claro/claro.css">
+    <!-- load Dojo -->
+    <script>
+        // Instead of using data-dojo-config, we're creating a dojoConfig
+        // object *before* we load dojo.js; they're functionally identical,
+        // it's just easier to read this approach with a larger configuration.
+        var dojoConfig = {
+            async: true,
+            baseUrl: '.',
+            // This code registers the correct location of the "demo"
+            // package so we can load Dojo from the CDN whilst still
+            // being able to load local modules
+            packages: [
+                'dojo',
+                'dijit',
+                'dojox'
+                    ]
+        };
+    </script>
+    <script src="dojo/dojo.js" data-dojo-config="async: true"></script>
+</head>
+<!-- set the claro class on our body element -->
+<body class="claro">
+<div>
+    <label for="number">Age:</label>
+    <input id="number" type="text" value="54" required="true" data-dojo-type="dijit/form/NumberTextBox">
+</div>
+<div>
+    <label for="currency">Annual Salary:</label>
+    <input id="currency" value="54775.53" required="true"
+           data-dojo-type="dijit/form/CurrencyTextBox"
+           data-dojo-props="
+                    constraints: {fractional: true},
+                    currency: 'USD',
+                    invalidMessage: 'Invalid amount. Cents are mandatory.'">
+</div>
+<div>
+    <label for="time">Start Time:</label>
+    <input id="time" required="true"
+           data-dojo-type="dijit/form/TimeTextBox"
+           data-dojo-props="
+                constraints: {
+                    timePattern: 'HH:mm:ss',
+                    clickableIncrement: 'T00:15:00',
+                    visibleIncrement: 'T00:15:00',
+                    visibleRange: 'T01:00:00'
+                },
+                invalidMessage: 'Invalid time.'">
+</div>
+<div>
+    <label for="date">Start Date:</label>
+    <input id="date" value="2011-09-15" data-dojo-type="dijit/form/DateTextBox">
+</div>
+<script>
+    // load requirements for declarative widgets in page content
+    require(["dijit/form/NumberTextBox", "dijit/form/CurrencyTextBox", "dijit/form/TimeTextBox", "dijit/form/DateTextBox", "dojo/domReady!", "dojo/parser"]);
+</script>
+</body>
+</html>
