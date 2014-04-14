@@ -1,0 +1,13 @@
+/**
+ Custom styles and overrides for the "pure" theme
+ */
+
+#splash-container
+{
+   clear: both;
+   margin: 75px auto;
+   padding: 10px auto;
+   width: 100%;
+}
+
+
