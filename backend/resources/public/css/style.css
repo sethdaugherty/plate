@@ -10,4 +10,8 @@
    width: 100%;
 }
 
-
+.content-wrapper
+{
+  max-width: 980px;
+  margin: 100px auto;
+}
