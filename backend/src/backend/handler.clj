@@ -3,6 +3,7 @@
         backend.views
         backend.template
         backend.errors
+        backend.image.invert
         [hiccup.middleware :only (wrap-base-url)])
   (:require [compojure.response :as response]
             [compojure.handler :as handler]
@@ -10,6 +11,7 @@
 
 (defroutes app-routes
   (GET "/" [] (index-page))
+  (GET "/invert" [] (invert))
   (route/resources "/")
   (route/not-found (error404)))
 

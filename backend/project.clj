@@ -5,6 +5,8 @@
                  [compojure "1.1.6"]]
   :plugins [[lein-ring "0.8.10"]]
   :ring {:handler backend.handler/app}
+  :java-source-paths ["src/java"]
+  :javac-options     ["-target" "1.6" "-source" "1.6" ]
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring-mock "0.1.5"]]}})
