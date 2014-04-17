@@ -5,7 +5,7 @@
     (html5
         [:head
           [:title "Plate"]
-          (include-css "http://yui.yahooapis.com/pure/0.4.2/pure-min.css")]
+          (include-css "/css/pure-min.css")]
           (include-css "/css/custom_pure_skin.css")
           (include-css "/css/style.css")
         [:body {:class "pure-skin-blue"}

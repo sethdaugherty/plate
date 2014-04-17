@@ -11,7 +11,7 @@
 
 (defroutes app-routes
   (GET "/" [] (index-page))
-  (GET "/invert" [] (invert))
+  (GET "/invert" [imgsrc] (invert imgsrc))
   (route/resources "/")
   (route/not-found (error404)))
 
