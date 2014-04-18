@@ -1,5 +1,5 @@
 (ns backend.errors
-    (:use backend.template 
+    (:use backend.template.main 
           [hiccup core page]))
 
 (defn error404 []

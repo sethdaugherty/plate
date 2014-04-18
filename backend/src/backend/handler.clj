@@ -1,7 +1,7 @@
 (ns backend.handler
   (:use compojure.core
         backend.views
-        backend.template
+        backend.editor
         backend.errors
         backend.image.invert
         [hiccup.middleware :only (wrap-base-url)])
@@ -12,6 +12,7 @@
 (defroutes app-routes
   (GET "/" [] (index-page))
   (GET "/invert" [imgsrc] (invert imgsrc))
+  (GET "/editor" [] (editor))
   (route/resources "/")
   (route/not-found (error404)))
 

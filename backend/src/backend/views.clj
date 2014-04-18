@@ -1,5 +1,5 @@
 (ns backend.views
-    (:use backend.template 
+    (:use backend.template.main
           [hiccup core page]))
 
 (defn index-page []
