@@ -4,6 +4,16 @@
 
 (def filters (ij.plugin.filter.Filters.))
 
+(defn uuid [] (str (java.util.UUID/randomUUID)))
+
+(defn returnImage [image] 
+  (def outfileName (str (uuid) ".jpg"))
+  (def outfile (java.io.File. outfileName))
+      (javax.imageio.ImageIO/write invertedImg "jpg" outfile)
+      {:status 200
+          :headers {"Content-Type" "application.jpg"}
+          :body (java.io.FileInputStream. outfileName)
+      })
 
 (defn invert [imgsrc] 
      (let []
@@ -17,7 +27,5 @@
           (.setup filters "invert" imageplus)
           (.run filters imageProcessor)
           (def invertedImg (.createImage imageProcessor))
-          (def outfile (java.io.File. "output.jpg"))
-          (javax.imageio.ImageIO/write invertedImg "jpg" outfile)
-          (.toString outfile) 
-          ))
+          (returnImage invertedImg)
+    ))
