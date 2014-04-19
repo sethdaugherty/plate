@@ -7,6 +7,7 @@ require([
     "dijit/PopupMenuBarItem",
     "fileMenu",
     "editMenu",
+    "imageMenu",
     "dojo/domReady!"
 ], function
    (
@@ -16,7 +17,8 @@ require([
        MenuBarItem,
        PopupMenuBarItem,
        FileMenu,
-       EditMenu
+       EditMenu,
+       ImageMenu
     )
     {
         console.log(FileMenu);
@@ -32,6 +34,8 @@ require([
 
     var editMenu = EditMenu.create("editMenu");
 
+    var imageMenu = ImageMenu.create("imageMenu");
+
     // create and add main menu items
     mainMenu.addChild(new PopupMenuBarItem({
         id: "file",
@@ -46,10 +50,10 @@ require([
     }));
 
     // make task menu item open the sub-menu we defined above
-    mainMenu.addChild(new MenuBarItem({
+    mainMenu.addChild(new PopupMenuBarItem({
         id: "image",
-        label: "Image"
-    //    popup: taskMenu
+        label: "Image",
+        popup: imageMenu
     }));
 
     mainMenu.addChild(new MenuBarItem({
@@ -86,4 +90,5 @@ require([
     fileMenu.startup();
         console.log("starting editmenu");
     editMenu.startup();
+    imageMenu.startup();
 });

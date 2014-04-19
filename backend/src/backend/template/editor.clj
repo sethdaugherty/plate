@@ -17,13 +17,20 @@
                 {
                   name: 'editMenu',
                   location: '/scripts/menus/editMenu'
+                },
+                {
+                  name: 'imageMenu',
+                  location: '/scripts/menus/imageMenu'
                 }
             ]
         };"]
-    [:script {
+      [:script {
           :type "text/javascript" 
           :data-dojo-config "async: true" 
           :src "/scripts/dojo/dojo.js"}]
+      [:script {
+          :type "text/javascript"
+          :src "/scripts/caman.full.min.js"}]
        ) 
   )
 
