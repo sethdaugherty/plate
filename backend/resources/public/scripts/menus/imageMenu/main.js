@@ -13,7 +13,6 @@ define(
 
         var menu;
 
-
         return {
 
             create: function(id) {
@@ -45,6 +44,16 @@ define(
                       ).then(function(text)
                       {
                         console.log("done inverting");
+                        console.log("/images/" + text);
+                        var context = canvas.getContext("2d");
+                        console.log(context);
+                        var image = new Image();
+                        image.src = "/images/" + text;
+                        image.onload = function()
+                        {
+                          context.clearRect(0, 0, canvas.width, canvas.height);
+                          context.drawImage(image, 0, 0);
+                        };
                       });
 
 

@@ -17,11 +17,10 @@
 
 (defn returnImage [image] 
   (def outfileName (str (uuid) ".jpg"))
-  (def outfile (java.io.File. outfileName))
+  (def outfile (java.io.File. (str "resources/public/images/" outfileName)))
       (javax.imageio.ImageIO/write image "jpg" outfile)
       {:status 200
-          :headers {"Content-Type" "application.jpg"}
-          :body (java.io.FileInputStream. outfileName)
+          :body outfileName
       })
 
 (defn invert [base64Image] 
