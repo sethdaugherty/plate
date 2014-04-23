@@ -1,0 +1,49 @@
+<script>
+function draw()
+{
+  console.log("drawing");
+  var canvas = document.getElementById("mainCanvas");
+  var context = canvas.getContext("2d");
+  var image = new Image();
+
+  image.src = "/images/Guy.jpg";
+  image.onload = function()
+  {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(image, 0, 0);
+  }
+}
+
+function invert()
+{
+  console.log("inverted");
+  var canvas = document.getElementById("mainCanvas");
+  var context = canvas.getContext("2d");
+  var imageData = context.getImageData(0,0,canvas.width, canvas.height);
+  
+  var data = imageData.data;
+  var length = imageData.data.length;
+  var newImageData = context.createImageData(canvas.width, canvas.height);
+  for (var i = 0; i < length; i += 4)
+  {
+    newImageData.data[i] = (255 - data[i]);
+    newImageData.data[i+1] = (255 - data[i+1]);
+    newImageData.data[i+2] = (255 - data[i+2]);
+    newImageData.data[i+3] = (data[i+3]); // don't invert the opacity!
+  }
+
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.putImageData(newImageData,0,0);
+  console.log(newImageData);
+}
+</script>
+
+<body>
+<button id="draw" onclick="draw()">Draw</button>
+<button id="invert" onclick="invert()">Invert</button>
+<br />
+<hr />
+<canvas id="mainCanvas" style="width: 400px; height: 600px; border: 1px solid black"></canvas>
+
+hi
+</body>
