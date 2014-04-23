@@ -21,6 +21,10 @@
                 {
                   name: 'imageMenu',
                   location: '/scripts/menus/imageMenu'
+                },
+                {
+                  name: 'adjustMenu',
+                  location: '/scripts/menus/imageMenu/adjustMenu'
                 }
             ]
         };"]

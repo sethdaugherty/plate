@@ -7,11 +7,14 @@ define(
         "dijit/MenuItem",
         "dijit/MenuBar",
         "dijit/MenuBarItem",
-        "dijit/PopupMenuBarItem"
+        "dijit/PopupMenuBarItem",
+        "dijit/PopupMenuItem",
+        "adjustMenu"
     ],
-    function(dom, request, domConstruct, Menu, MenuItem, MenuBar, MenuBarItem, PopupMenuBarItem){
+    function(dom, request, domConstruct, Menu, MenuItem, MenuBar, MenuBarItem, PopupMenuBarItem, PopupMenuItem, AdjustMenu){
 
         var menu;
+        var adjustMenu;
 
         return {
 
@@ -61,12 +64,18 @@ define(
                     }
                 }));
 
+                adjustMenu = AdjustMenu.create("adjustMenu");
+                menu.addChild(new PopupMenuItem({
+                  label: "Adjust",
+                  popup: adjustMenu
+                }));
                 return menu;
             },
 
             startup: function()
             {
                 menu.startup();
+                adjustMenu.startup();
                 return;
             }
         };
