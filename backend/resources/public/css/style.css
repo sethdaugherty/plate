@@ -15,3 +15,8 @@
   max-width: 980px;
   margin: 100px auto;
 }
+
+#brightnessContrastDialog_underlay
+{
+  display: none !important;
+}

@@ -43,6 +43,7 @@
         [:head
           [:title "Plate"]
           (include-css "/css/dojo/themes/claro/claro.css")
+          (include-css "/css/style.css")
           (include-and-configure-dojo)]
         [:body {:class "claro"}
           [:div {:id "mainMenu"}]
