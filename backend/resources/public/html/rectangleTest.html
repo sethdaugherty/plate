@@ -1,0 +1,116 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+var previousX = null;
+var previousY = null;
+var originalData = null;
+var shouldRedraw = true;
+function draw()
+{
+  console.log("drawing");
+  var canvas = document.getElementById("mainCanvas");
+  var context = canvas.getContext("2d");
+  var img = document.getElementById("srcImg");
+  context.drawImage(img, 0,0);
+  /*var image = new Image();
+
+  image.src = "/images/Guy.jpg";
+  image.onload = function()
+  {
+    //context.clearRect(0, 0, canvas.height, canvas.width);
+    context.drawImage(image, 0, 0, 484, 500);
+  }*/
+  var imgData = context.getImageData(0,0,canvas.width,canvas.height);
+  originalData = imgData.data;
+  console.log(originalData);
+}
+
+function startRect()
+{
+  var canvas = $("#mainCanvas");
+  canvas.mousedown(function(e) {
+    if (canvas.state && canvas.state == "drawingStarted") 
+    {
+      console.log("drawing started");
+    }
+    else 
+    {
+      canvas.state = "drawingStarted";
+      canvas.x1 = e.pageX;
+      canvas.y1 = e.pageY;
+    }
+
+  });
+
+  canvas.mousemove(function(e) {
+    if (canvas.state && canvas.state == "drawingStarted")
+    {
+      if (shouldRedraw)
+      {
+        drawRect(canvas, e.pageX, e.pageY);
+        previousX = e.pageX;
+        previousY = e.pageY;
+        shouldRedraw = false;
+      }
+      else
+      {
+        shouldRedraw = true;
+      }
+    }
+  });
+
+  canvas.mouseup(function(e) {
+    console.log("mouse up");
+    if (canvas.state && canvas.state == "drawingStarted")
+    {
+      drawRect(canvas, e.pageX, e.pageY);
+      canvas.state = "drawingStopped";
+    }
+  });
+
+}
+
+function drawRect(canvas, stopX, stopY)
+{
+  var canvasElement = document.getElementById("mainCanvas");
+  var context = canvasElement.getContext("2d");
+  drawFromOriginal(canvasElement, context);
+  var canvasOffset = canvas.offset();
+
+  var x1 = canvas.x1 - canvasOffset.left;
+  var y1 = canvas.y1 - canvasOffset.top;
+  var width = stopX - canvas.x1;
+  var height = stopY - canvas.y1;
+
+  context.beginPath();
+  context.rect(x1, y1, width, height);
+  context.lineWidth = 1;
+  context.strokeStyle = "#333333";
+  context.stroke();
+}
+
+function drawFromOriginal(canvas, context)
+{
+  var newImageData = context.createImageData(canvas.width, canvas.height);
+  var length = originalData.length;
+  for (var i =0; i < length; i++)
+  {
+    newImageData.data[i] = originalData[i];
+  }
+  context.clearRect(0,0,canvas.width, canvas.height);
+  context.putImageData(newImageData, 0, 0);
+}
+
+</script>
+
+<body onload="draw()">
+<button id="draw" onclick="draw()">Draw</button>
+<button id="rect" onclick="startRect()">Rect</button>
+<br />
+<hr />
+<canvas id="mainCanvas" style="border: 1px solid black" width="484" height="500"></canvas>
+<img src="/images/Guy.jpg" style="display:none;" id="srcImg" />
+hi
+<script>
+
+</script>
+</body>
