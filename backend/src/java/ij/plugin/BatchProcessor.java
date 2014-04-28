@@ -8,7 +8,11 @@ import ij.macro.Interpreter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Vector;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /** This plugin implements the File/Batch/Macro and File/Batch/Virtual Stack commands. */
 	public class BatchProcessor implements PlugIn, ActionListener, ItemListener, Runnable {
@@ -162,6 +166,15 @@ import java.util.Vector;
 		String[] list = (new File(inputPath)).list();
 		int index = 0;
 		int startingCount = WindowManager.getImageCount();
+		
+		int maxThreadPoolSize = 4;
+		if (list.length < maxThreadPoolSize)
+		{
+			maxThreadPoolSize = list.length;
+		}
+		
+		ExecutorService threadPool = Executors.newFixedThreadPool(maxThreadPoolSize);
+		long startTime = System.nanoTime();
 		for (int i=0; i<list.length; i++) {
 			if (IJ.escapePressed()) break;
 			String path = inputPath + list[i];
@@ -170,37 +183,31 @@ import java.util.Vector;
 				continue;
 			if (list[i].startsWith(".")||list[i].endsWith(".avi")||list[i].endsWith(".AVI"))
 				continue;
-			IJ.showProgress(i+1, list.length);
-			IJ.redirectErrorMessages(true);
-			ImagePlus imp = IJ.openImage(path);
-			IJ.redirectErrorMessages(false);
-			if (imp==null && WindowManager.getImageCount()>startingCount)
-				imp = WindowManager.getCurrentImage();
-			if (imp==null)
-				imp = Opener.openUsingBioFormats(path);
-			if (imp==null) {
-				IJ.log("openImage() and openUsingBioFormats() returned null: "+path);
-				continue;
-			}
-			if (!macro.equals("")) {
-				outputImage = null;
-				if (!runMacro("i="+(index++)+";"+macro, imp))
-					break;
-			}
-			if (!outputPath.equals("")) {
-				if (format.equals("8-bit TIFF") || format.equals("GIF")) {
-					if (imp.getBitDepth()==24)
-						IJ.run(imp, "8-bit Color", "number=256");
-					else
-						IJ.run(imp, "8-bit", "");
-				}
-				if (outputImage!=null && outputImage!=imp)
-					IJ.saveAs(outputImage, format, outputPath+list[i]);
-				else
-					IJ.saveAs(imp, format, outputPath+list[i]);
-			}
-			imp.close();
+
+			threadPool.execute
+			(
+				new BatchRunnable
+				(
+					path,
+					macro,
+					format,
+					index,
+					outputImage,
+					list[i],
+					outputPath
+				)
+			);
+			
 		}
+		
+		threadPool.shutdown();
+		try {
+			  threadPool.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+			} catch (InterruptedException e) {
+			  System.out.println("exception while closing thread pool");
+			}
+		long endTime = System.nanoTime();
+		System.out.println("Took (ns):" + (endTime - startTime));
 	}
 	
 	private boolean runMacro(String macro, ImagePlus imp) {
